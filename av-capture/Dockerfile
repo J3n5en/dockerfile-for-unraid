@@ -11,11 +11,13 @@ RUN \
     curl ${AV_Data_Capture_ZIP} -o AV_Data_Capture.zip && \
     unzip -x AV_Data_Capture.zip && \
     cd AV_Data_Capture-master && \
-    pip install requests pyquery lxml Beautifulsoup4 pillow
+    pip install -r /tmp/AV_Data_Capture-master/requirements.txt
 
 VOLUME ["/xxx"]
 
 WORKDIR /xxx
 
-RUN sed -i '$d' /tmp/AV_Data_Capture-master/AV_Data_Capture.py
-CMD [ "python3", "/tmp/AV_Data_Capture-master/AV_Data_Capture.py" ]
+# RUN sed -i '$d' /tmp/AV_Data_Capture-master/AV_Data_Capture.py
+# CMD [ "python3", "/tmp/AV_Data_Capture-master/AV_Data_Capture.py", "-a" ]
+COPY ./scripts/av.sh /
+ENTRYPOINT [ "sh", "/av.sh" ]
